@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS // Digital Game & Esports Storefront</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Orbitron", "sans-serif"],
+            },
+            colors: {
+              obsidian: "#090B10",
+              surface: "#11151F",
+              surfaceHover: "#181E2C",
+              neonYellow: "#FACC15",
+              neonCyan: "#06B6D4",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body
+    class="min-h-screen flex flex-col cyber-grid selection:bg-neonYellow selection:text-obsidian"
+  >
+    <!-- Top Navigation -->
+    <header
+      class="sticky top-0 z-40 bg-obsidian/90 backdrop-blur-md border-b border-slate-800/80"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"
+      >
+        <!-- Brand Logo -->
+        <a
+          href="#"
+          onclick="resetFilters(event)"
+          class="flex items-center gap-2.5 group"
+        >
+          <div
+            class="w-9 h-9 rounded-lg bg-neonYellow flex items-center justify-center text-obsidian font-display font-extrabold text-xl shadow-[0_0_15px_rgba(250,204,21,0.4)] group-hover:scale-105 transition-transform"
+          >
+            N
+          </div>
+          <span
+            class="font-display font-bold text-lg sm:text-xl tracking-wider text-white"
+          >
+            NEXUS <span class="text-neonYellow">//</span>
+            <span
+              class="text-slate-400 text-sm font-sans font-semibold tracking-widest"
+              >STORE</span
+            >
+          </span>
+        </a>
+
+        <!-- Desktop Search Bar -->
+        <div class="hidden md:flex flex-1 max-w-md relative">
+          <svg
+            class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            type="text"
+            id="desktop-search"
+            placeholder="Search titles, genres, skins..."
+            class="w-full bg-surface border border-slate-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition-colors"
+          />
+        </div>
+
+        <!-- Cart Button -->
+        <div class="flex items-center gap-3">
+          <button
+            onclick="toggleCart(true)"
+            class="relative flex items-center gap-2 bg-surface hover:bg-surfaceHover border border-slate-700/80 hover:border-neonYellow/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all"
+          >
+            <svg
+              class="w-5 h-5 text-neonYellow"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            <span class="hidden sm:inline">Cart</span>
+            <span
+              id="cart-badge"
+              class="bg-neonYellow text-obsidian font-bold text-xs px-2 py-0.5 rounded-full"
+              >0</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="md:hidden px-4 pb-3">
+        <div class="relative">
+          <svg
+            class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            type="text"
+            id="mobile-search"
+            placeholder="Search titles, genres, skins..."
+            class="w-full bg-surface border border-slate-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-neonCyan"
+          />
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main
+      class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8"
+    >
+      <!-- Flagship Hero Banner -->
+      <section
+        class="relative rounded-2xl overflow-hidden bg-surface border border-slate-800 shadow-2xl"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/90 to-transparent z-10"
+        ></div>
+        <img
+          src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80"
+          alt="Spectre Protocol: Zero Hour"
+          class="w-full h-[360px] sm:h-[420px] object-cover object-center opacity-60"
+        />
+        <div
+          class="relative z-20 p-6 sm:p-10 lg:p-12 max-w-2xl flex flex-col justify-center h-full"
+        >
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neonCyan/10 border border-neonCyan/30 text-neonCyan text-xs font-semibold uppercase tracking-wider w-fit mb-4"
+          >
+            <span class="w-2 h-2 rounded-full bg-neonCyan animate-pulse"></span>
+            Featured Flagship Release
+          </div>
+          <h1
+            class="font-display text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight mb-3"
+          >
+            SPECTRE PROTOCOL: <span class="text-neonYellow">ZERO HOUR</span>
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed">
+            High-stakes 5v5 tactical cyber-warfare. Master precision ballistics,
+            deploy neural recon drones, and dominate ranked arenas at 360+ FPS.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+            <button
+              onclick="addToCart(1)"
+              class="bg-neonYellow hover:bg-yellow-300 text-obsidian font-bold px-6 py-3 rounded-lg text-sm sm:text-base flex items-center gap-2 transition-all shadow-[0_0_20px_rgba(250,204,21,0.3)] cursor-pointer"
+            >
+              <span>Add Edition — $59.99</span>
+            </button>
+            <button
+              onclick="openModal(1)"
+              class="bg-surface/90 hover:bg-slate-800 text-white border border-slate-700 hover:border-neonCyan px-5 py-3 rounded-lg text-sm sm:text-base font-medium transition-colors cursor-pointer"
+            >
+              Intel & Specs
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter & Sort Controls -->
+      <section
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4"
+      >
+        <div
+          id="category-filters"
+          class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0"
+        >
+          <!-- Category buttons injected by JS -->
+        </div>
+        <div
+          class="flex items-center justify-between sm:justify-end gap-3 text-xs text-slate-400"
+        >
+          <span id="results-count">Showing 8 items</span>
+          <span class="text-slate-700">|</span>
+          <span class="text-neonCyan font-medium"
+            >Promo:
+            <code class="bg-slate-800 px-1.5 py-0.5 rounded text-neonYellow"
+              >GG20</code
+            ></span
+          >
+        </div>
+      </section>
+
+      <!-- Game Catalog Grid -->
+      <section>
+        <div
+          id="games-grid"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <!-- Cards injected by JS -->
+        </div>
+        <div
+          id="empty-state"
+          class="hidden text-center py-16 bg-surface/50 rounded-2xl border border-slate-800"
+        >
+          <p class="font-display text-lg text-slate-300 mb-2">
+            NO MATCHING TITLES FOUND
+          </p>
+          <p class="text-sm text-slate-500 mb-4">
+            Try clearing your search query or switching categories.
+          </p>
+          <button
+            onclick="resetFilters()"
+            class="bg-neonCyan text-obsidian font-semibold px-4 py-2 rounded-lg text-sm hover:bg-cyan-300 transition-colors"
+          >
+            Reset Filters
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-obsidian mt-12">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500"
+      >
+        <div class="flex items-center gap-2">
+          <span class="font-display font-bold text-slate-300"
+            >NEXUS // STORE</span
+          >
+          <span>•</span>
+          <span>Instant Digital Key & Inventory Delivery</span>
+        </div>
+        <div>
+          Use promo code <span class="text-neonYellow font-mono">GG20</span> at
+          checkout for 20% off your order.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Game Details Modal -->
+    <div
+      id="game-modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+    >
+      <div
+        class="bg-surface border border-slate-700 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl animate-[fadeIn_0.2s_ease-out]"
+        onclick="event.stopPropagation()"
+      >
+        <div class="relative h-56 sm:h-64">
+          <img
+            id="modal-img"
+            src=""
+            alt=""
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-transparent"
+          ></div>
+          <button
+            onclick="closeModal()"
+            class="absolute top-4 right-4 w-9 h-9 rounded-full bg-obsidian/80 hover:bg-neonYellow text-white hover:text-obsidian flex items-center justify-center transition-colors"
+            aria-label="Close modal"
+          >
+            ✕
+          </button>
+          <div
+            class="absolute bottom-4 left-6 right-6 flex items-end justify-between gap-4"
+          >
+            <div>
+              <div id="modal-tags" class="flex flex-wrap gap-2 mb-2"></div>
+              <h2
+                id="modal-title"
+                class="font-display text-2xl sm:text-3xl font-bold text-white"
+              ></h2>
+            </div>
+            <div
+              class="bg-obsidian/90 border border-slate-700 px-3 py-1.5 rounded-lg text-right shrink-0"
+            >
+              <div class="text-xs text-slate-400">Rating</div>
+              <div
+                id="modal-rating"
+                class="text-neonYellow font-bold text-sm"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-5">
+          <div>
+            <h3
+              class="text-xs font-semibold uppercase tracking-wider text-neonCyan mb-1.5"
+            >
+              Gameplay Overview
+            </h3>
+            <p
+              id="modal-desc"
+              class="text-slate-300 text-sm leading-relaxed"
+            ></p>
+          </div>
+
+          <div class="bg-obsidian/70 border border-slate-800 rounded-xl p-4">
+            <h3
+              class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2"
+            >
+              System & Hardware Specifications
+            </h3>
+            <p
+              id="modal-specs"
+              class="text-xs sm:text-sm font-mono text-slate-300"
+            ></p>
+          </div>
+
+          <div
+            class="flex items-center justify-between pt-2 border-t border-slate-800"
+          >
+            <div>
+              <span class="text-xs text-slate-400 block">Digital License</span>
+              <span
+                id="modal-price"
+                class="font-display text-2xl font-bold text-white"
+              ></span>
+            </div>
+            <button
+              id="modal-add-btn"
+              class="bg-neonYellow hover:bg-yellow-300 text-obsidian font-bold px-6 py-3 rounded-lg text-sm transition-colors cursor-pointer"
+            >
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide-Out Shopping Cart Drawer -->
+    <div
+      id="cart-overlay"
+      onclick="toggleCart(false)"
+      class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-xs transition-opacity"
+    >
+      <aside
+        id="cart-drawer"
+        onclick="event.stopPropagation()"
+        class="fixed top-0 right-0 h-full w-full max-w-md bg-surface border-l border-slate-800 shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300"
+      >
+        <!-- Cart Header -->
+        <div
+          class="p-5 border-b border-slate-800 flex items-center justify-between"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-neonYellow"></span>
+            <h2 class="font-display font-bold text-lg tracking-wide text-white">
+              YOUR LOADOUT
+            </h2>
+          </div>
+          <button
+            onclick="toggleCart(false)"
+            class="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+          <!-- Cart items injected by JS -->
+        </div>
+
+        <!-- Cart Footer / Checkout -->
+        <div class="p-5 border-t border-slate-800 bg-obsidian/90 space-y-4">
+          <!-- Promo Code Input -->
+          <div>
+            <label class="block text-xs text-slate-400 mb-1.5"
+              >Promo Code (Try
+              <span class="text-neonYellow font-mono">GG20</span>)</label
+            >
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="promo-input"
+                placeholder="Enter code..."
+                class="flex-1 bg-surface border border-slate-700 rounded-lg px-3 py-2 text-sm text-white uppercase placeholder-slate-500 focus:outline-none focus:border-neonCyan"
+              />
+              <button
+                onclick="applyPromo()"
+                class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors"
+              >
+                Apply
+              </button>
+            </div>
+            <p id="promo-feedback" class="text-xs mt-1.5 hidden"></p>
+          </div>
+
+          <!-- Totals -->
+          <div class="space-y-1.5 text-sm border-t border-slate-800 pt-3">
+            <div class="flex justify-between text-slate-400">
+              <span>Subtotal</span>
+              <span id="cart-subtotal">$0.00</span>
+            </div>
+            <div id="discount-row" class="hidden justify-between text-neonCyan">
+              <span>Discount (GG20 - 20%)</span>
+              <span id="cart-discount">-$0.00</span>
+            </div>
+            <div
+              class="flex justify-between text-base font-bold text-white pt-1"
+            >
+              <span>Total</span>
+              <span id="cart-total" class="font-display text-neonYellow"
+                >$0.00</span
+              >
+            </div>
+          </div>
+
+          <button
+            onclick="checkout()"
+            id="checkout-btn"
+            class="w-full bg-neonYellow hover:bg-yellow-300 disabled:opacity-40 disabled:pointer-events-none text-obsidian font-bold py-3 rounded-lg text-sm tracking-wide transition-all cursor-pointer"
+          >
+            COMPLETE DIGITAL CHECKOUT
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Notification Toast -->
+    <div
+      id="toast"
+      class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 bg-surface border border-neonCyan text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm"
+    >
+      <span class="w-2.5 h-2.5 rounded-full bg-neonCyan"></span>
+      <span id="toast-message">Item added to cart</span>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
